@@ -14,7 +14,7 @@ const login = (req, res) => {
   const { email, password } = req.body;
   Account.findOne({ email })
     .then((user) => {
-      if (user.validPassword(password)) {
+      if (user && user.validPassword(password)) {
         return res.send(user.toAuthJSON());
       }
       return res.status(401).send({ message: "Invalid credentials." });

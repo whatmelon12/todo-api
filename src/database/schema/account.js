@@ -1,17 +1,20 @@
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const { Schema, model } = require("mongoose");
+const unique = require("mongoose-unique-validator");
 
 const AccountSchema = new Schema(
   {
     firstName: String,
     lastName: String,
-    email: { type: String, required: true, trim: true },
+    email: { type: String, required: true, trim: true, unique: true },
     salt: String,
     hash: String,
   },
   { timestamps: true }
 );
+
+AccountSchema.plugin(unique, { message: "is already taken." });
 
 AccountSchema.methods.setPassword = function (password) {
   this.salt = crypto.randomBytes(16).toString("hex");
