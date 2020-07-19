@@ -1,6 +1,7 @@
 const { Todo } = require("../../database");
 
 const create = (req, res) => {
+  delete req.body._id;
   const todo = new Todo({
     ...req.body,
     user: req.user._id,
